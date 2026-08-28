@@ -42,7 +42,7 @@ export const searchLocations = createServerFn({ method: "POST" })
     return (json.results ?? []).map((r) => ({
       name: r.name,
       country: r.country ?? "",
-      region: r.admin1,
+      ...(r.admin1 ? { region: r.admin1 } : {}),
       latitude: r.latitude,
       longitude: r.longitude,
     }));

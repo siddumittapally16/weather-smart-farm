@@ -28,6 +28,21 @@ function welcomeMessage(): Message {
   return { id: "welcome", role: "assistant", content: WELCOME, at: Date.now() };
 }
 
+/** Renders **bold** markers without pulling in a full markdown renderer. */
+function RichText({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+        part.startsWith("**") && part.endsWith("**") && part.length > 4 ? (
+          <strong key={i}>{part.slice(2, -2)}</strong>
+        ) : (
+          <span key={i}>{part}</span>
+        ),
+      )}
+    </>
+  );
+}
+
 export function AIChatBox({ weather }: { weather: WeatherData | null }) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);

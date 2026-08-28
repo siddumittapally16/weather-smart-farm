@@ -19,6 +19,9 @@
  */
 
 @theme inline {
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-sky: var(--sky);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -62,39 +65,45 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --radius: 1rem;
+  --background: oklch(0.982 0.012 110);
+  --foreground: oklch(0.24 0.04 150);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: oklch(0.24 0.04 150);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --popover-foreground: oklch(0.24 0.04 150);
+  --primary: oklch(0.52 0.14 150);
+  --primary-foreground: oklch(0.99 0.01 120);
+  --secondary: oklch(0.94 0.03 130);
+  --secondary-foreground: oklch(0.3 0.06 150);
+  --muted: oklch(0.955 0.018 120);
+  --muted-foreground: oklch(0.5 0.03 150);
+  --accent: oklch(0.9 0.06 120);
+  --accent-foreground: oklch(0.28 0.06 150);
+  --destructive: oklch(0.55 0.2 27);
+  --destructive-foreground: oklch(0.99 0.01 120);
+  --border: oklch(0.9 0.02 130);
+  --input: oklch(0.9 0.02 130);
+  --ring: oklch(0.52 0.14 150);
+  --warning: oklch(0.72 0.16 70);
+  --warning-foreground: oklch(0.25 0.05 70);
+  --sky: oklch(0.62 0.11 230);
+  --gradient-hero: linear-gradient(135deg, oklch(0.46 0.13 152) 0%, oklch(0.58 0.13 170) 55%, oklch(0.66 0.12 200) 100%);
+  --shadow-card: 0 1px 2px oklch(0.24 0.04 150 / 6%), 0 8px 24px oklch(0.24 0.04 150 / 8%);
+  --shadow-float: 0 12px 40px oklch(0.24 0.04 150 / 22%);
+  --chart-1: oklch(0.52 0.14 150);
+  --chart-2: oklch(0.62 0.11 230);
+  --chart-3: oklch(0.72 0.16 70);
+  --chart-4: oklch(0.6 0.12 190);
+  --chart-5: oklch(0.55 0.15 30);
+  --sidebar: oklch(0.97 0.02 130);
+  --sidebar-foreground: oklch(0.24 0.04 150);
+  --sidebar-primary: oklch(0.52 0.14 150);
+  --sidebar-primary-foreground: oklch(0.99 0.01 120);
+  --sidebar-accent: oklch(0.9 0.06 120);
+  --sidebar-accent-foreground: oklch(0.28 0.06 150);
+  --sidebar-border: oklch(0.9 0.02 130);
+  --sidebar-ring: oklch(0.52 0.14 150);
 }
 
 .dark {
@@ -141,4 +150,48 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+}
+
+@utility bg-hero-gradient {
+  background-image: var(--gradient-hero);
+}
+
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+@utility shadow-float {
+  box-shadow: var(--shadow-float);
+}
+
+@keyframes farm-chat-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@utility animate-chat-in {
+  animation: farm-chat-in 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes farm-typing {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@utility animate-typing-dot {
+  animation: farm-typing 1.1s infinite;
 }

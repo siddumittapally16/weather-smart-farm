@@ -151,3 +151,47 @@
     color: var(--color-foreground);
   }
 }
+
+@utility bg-hero-gradient {
+  background-image: var(--gradient-hero);
+}
+
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+@utility shadow-float {
+  box-shadow: var(--shadow-float);
+}
+
+@keyframes farm-chat-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@utility animate-chat-in {
+  animation: farm-chat-in 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes farm-typing {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@utility animate-typing-dot {
+  animation: farm-typing 1.1s infinite;
+}

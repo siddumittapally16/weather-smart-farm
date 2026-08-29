@@ -1,28 +1,23 @@
 import { createServerFn } from "@tanstack/react-start";
-import { FORECAST_PARAMS, FORECAST_URL, buildWeatherData } from "./weather-core";
+import { buildForecastUrl, buildWeatherData } from "./weather-core";
 import type { FarmLocation, WeatherData } from "./weather-types";
 
 export const fetchWeatherData = createServerFn({ method: "POST" })
   .inputValidator((input: { location: FarmLocation }) => input)
   .handler(async ({ data }): Promise<WeatherData> => {
     const { location } = data;
-    const url = new URL(FORECAST_URL);
-    url.searchParams.set("latitude", String(location.latitude));
-    url.searchParams.set("longitude", String(location.longitude));
-    url.searchParams.set("current", FORECAST_PARAMS.current);
-    url.searchParams.set("hourly", FORECAST_PARAMS.hourly);
-    url.searchParams.set("daily", FORECAST_PARAMS.daily);
-    url.searchParams.set("timezone", "auto");
-    url.searchParams.set("forecast_days", "7");
-    url.searchParams.set("wind_speed_unit", "kmh");
+    const url = buildForecastUrl(location);
 
     // Open-Meteo occasionally rate-limits or drops a request; retry briefly
     // so a single hiccup never blanks the dashboard.
     let lastError = "unknown error";
-    for (let attempt = 0; attempt < 3; attempt++) {
-      if (attempt > 0) await new Promise((r) => setTimeout(r, 400 * attempt));
+    for (let attempt = 0; attempt < 4; attempt++) {
+      if (attempt > 0) await new Promise((r) => setTimeout(r, 300 * attempt));
       try {
-        const res = await fetch(url, { headers: { Accept: "application/json" } });
+        const res = await fetch(url, {
+          headers: { Accept: "application/json" },
+          signal: AbortSignal.timeout(8000),
+        });
         if (!res.ok) {
           lastError = `provider status ${res.status}`;
           continue;
@@ -35,6 +30,7 @@ export const fetchWeatherData = createServerFn({ method: "POST" })
     }
     throw new Error(`Weather provider unavailable (${lastError})`);
   });
+
 
 export const searchLocations = createServerFn({ method: "POST" })
   .inputValidator((input: { query: string }) => input)

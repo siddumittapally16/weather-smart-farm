@@ -149,7 +149,7 @@ export function AIChatBox({ weather }: { weather: WeatherData | null }) {
                       : "max-w-[92%] text-sm whitespace-pre-wrap text-foreground"
                   }
                 >
-                  {m.content}
+                  <RichText text={m.content} />
                 </div>
                 <span className="mt-1 text-[10px] text-muted-foreground">
                   {m.role === "user" ? "You" : "FarmGuard AI"} · {time(m.at)}

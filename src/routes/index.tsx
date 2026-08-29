@@ -15,6 +15,8 @@ import {
   SafetyAlerts,
 } from "@/components/farm/WeatherCards";
 import { fetchWeatherData } from "@/lib/weather.functions";
+import { buildForecastUrl, buildWeatherData } from "@/lib/weather-core";
+
 import {
   DEFAULT_LOCATION,
   WEATHER_REFRESH_INTERVAL_MS,
@@ -68,7 +70,18 @@ function Dashboard() {
     async (target: FarmLocation) => {
       setUpdating(true);
       try {
-        const data = await getWeather({ data: { location: target } });
+        let data: WeatherData;
+        try {
+          data = await getWeather({ data: { location: target } });
+        } catch {
+          // Fallback: fetch straight from the browser (Open-Meteo allows CORS)
+          // so a backend hiccup never blanks the dashboard.
+          const res = await fetch(buildForecastUrl(target), {
+            headers: { Accept: "application/json" },
+          });
+          if (!res.ok) throw new Error(`provider status ${res.status}`);
+          data = buildWeatherData(target, (await res.json()) as never);
+        }
         setWeather(data);
         setError(null);
         return true;
@@ -84,6 +97,7 @@ function Dashboard() {
     },
     [getWeather],
   );
+
 
   // Load the default agricultural location immediately, then whenever it changes.
   // If the provider hiccups, retry automatically with a short backoff.

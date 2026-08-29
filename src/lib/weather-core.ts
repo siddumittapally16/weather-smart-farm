@@ -69,9 +69,12 @@ function suitability(
   precip: number | null,
   temp: number | null,
 ): { text: string; level: HourlyPoint["suitabilityLevel"] } {
-  if ((precip ?? 0) > 0.5 || (rainProb ?? 0) >= 70) return { text: "Wet — postpone field work", level: "poor" };
-  if ((wind ?? 0) > 25 || (temp ?? 0) >= 38) return { text: "Harsh conditions — limit work", level: "poor" };
-  if ((wind ?? 0) > 15 || (rainProb ?? 0) >= 40) return { text: "Usable, avoid spraying", level: "caution" };
+  if ((precip ?? 0) > 0.5 || (rainProb ?? 0) >= 70)
+    return { text: "Wet — postpone field work", level: "poor" };
+  if ((wind ?? 0) > 25 || (temp ?? 0) >= 38)
+    return { text: "Harsh conditions — limit work", level: "poor" };
+  if ((wind ?? 0) > 15 || (rainProb ?? 0) >= 40)
+    return { text: "Usable, avoid spraying", level: "caution" };
   return { text: "Good for farm work", level: "good" };
 }
 
@@ -200,7 +203,8 @@ function buildAlerts(c: CurrentWeather, hourly: HourlyPoint[]): SafetyAlert[] {
     alerts.push({
       id: "clear",
       title: "No active weather hazards",
-      detail: "Conditions are within normal working limits. Keep following product labels and local guidance.",
+      detail:
+        "Conditions are within normal working limits. Keep following product labels and local guidance.",
       severity: "info",
     });
   return alerts;
@@ -217,35 +221,94 @@ function buildRecommendations(
 
   const irrigation: Recommendation =
     rainSoon >= 3
-      ? { id: "irrigation", category: "Irrigation", status: "avoid", advice: `About ${rainSoon.toFixed(1)} mm of rain is expected in the next 12 hours — hold irrigation and reassess after the rain.` }
+      ? {
+          id: "irrigation",
+          category: "Irrigation",
+          status: "avoid",
+          advice: `About ${rainSoon.toFixed(1)} mm of rain is expected in the next 12 hours — hold irrigation and reassess after the rain.`,
+        }
       : (c.et0 ?? 0) >= 5 || (c.temperature ?? 0) >= 33
-        ? { id: "irrigation", category: "Irrigation", status: "caution", advice: `High evaporative demand (ET₀ ${c.et0 ?? "--"} mm). Irrigate early morning or after sunset to cut losses.` }
-        : { id: "irrigation", category: "Irrigation", status: "good", advice: "Moderate demand. Irrigate on your normal schedule, preferably in the cooler hours." };
+        ? {
+            id: "irrigation",
+            category: "Irrigation",
+            status: "caution",
+            advice: `High evaporative demand (ET₀ ${c.et0 ?? "--"} mm). Irrigate early morning or after sunset to cut losses.`,
+          }
+        : {
+            id: "irrigation",
+            category: "Irrigation",
+            status: "good",
+            advice:
+              "Moderate demand. Irrigate on your normal schedule, preferably in the cooler hours.",
+          };
 
   const spraying: Recommendation =
     (c.windSpeed ?? 0) > 15 || (c.windGust ?? 0) > 25 || maxProb >= 60
-      ? { id: "spraying", category: "Spraying", status: "avoid", advice: `Wind ${c.windSpeed ?? "--"} km/h (gusts ${c.windGust ?? "--"}) and rain chance ${maxProb}% raise drift and wash-off risk. Wait for calmer, drier hours.` }
+      ? {
+          id: "spraying",
+          category: "Spraying",
+          status: "avoid",
+          advice: `Wind ${c.windSpeed ?? "--"} km/h (gusts ${c.windGust ?? "--"}) and rain chance ${maxProb}% raise drift and wash-off risk. Wait for calmer, drier hours.`,
+        }
       : (c.windSpeed ?? 0) < 3
-        ? { id: "spraying", category: "Spraying", status: "caution", advice: "Very light wind can cause inversion and drift. Spray when wind is 3–12 km/h and always follow the product label." }
-        : { id: "spraying", category: "Spraying", status: "good", advice: "Wind and rain conditions are suitable for spraying. Check the product label before application." };
+        ? {
+            id: "spraying",
+            category: "Spraying",
+            status: "caution",
+            advice:
+              "Very light wind can cause inversion and drift. Spray when wind is 3–12 km/h and always follow the product label.",
+          }
+        : {
+            id: "spraying",
+            category: "Spraying",
+            status: "good",
+            advice:
+              "Wind and rain conditions are suitable for spraying. Check the product label before application.",
+          };
 
   const harvest: Recommendation =
     (c.humidity ?? 0) > 85 || rainSoon > 1
-      ? { id: "harvest", category: "Harvesting", status: "caution", advice: "Moisture is high — grain and produce may need drying. Prefer a drier window later." }
-      : { id: "harvest", category: "Harvesting", status: "good", advice: "Dry conditions favour harvesting and safe storage." };
+      ? {
+          id: "harvest",
+          category: "Harvesting",
+          status: "caution",
+          advice:
+            "Moisture is high — grain and produce may need drying. Prefer a drier window later.",
+        }
+      : {
+          id: "harvest",
+          category: "Harvesting",
+          status: "good",
+          advice: "Dry conditions favour harvesting and safe storage.",
+        };
 
   const fieldwork: Recommendation =
     rainSoon > 2
-      ? { id: "fieldwork", category: "Field work", status: "avoid", advice: "Wet soil risks compaction and machinery bogging. Delay tillage and heavy traffic." }
-      : { id: "fieldwork", category: "Field work", status: "good", advice: "Soil conditions should support machinery. Watch for changes after any showers." };
+      ? {
+          id: "fieldwork",
+          category: "Field work",
+          status: "avoid",
+          advice:
+            "Wet soil risks compaction and machinery bogging. Delay tillage and heavy traffic.",
+        }
+      : {
+          id: "fieldwork",
+          category: "Field work",
+          status: "good",
+          advice: "Soil conditions should support machinery. Watch for changes after any showers.",
+        };
 
   const outlook: Recommendation = {
     id: "outlook",
     category: "Week ahead",
-    status: (daily.slice(0, 3).reduce((s, x) => s + (x.precipitation ?? 0), 0) > 10 ? "caution" : "good"),
+    status:
+      daily.slice(0, 3).reduce((s, x) => s + (x.precipitation ?? 0), 0) > 10 ? "caution" : "good",
     advice: daily
       .slice(0, 3)
-      .map((x) => `${x.label}: ${x.condition}, ${x.high ?? "--"}/${x.low ?? "--"}°C, rain ${x.rainProbability ?? "--"}%`)
+      .map(
+        (x) =>
+          `${x.label}: ${x.condition}, ${x.high ?? "--"}/${x.low ?? "--"}°C, rain ${x.rainProbability ?? "--"}%`,
+      )
       .join(" · "),
   };
 
@@ -267,7 +330,9 @@ function buildBestTimes(hourly: HourlyPoint[]): BestTimeActivity[] {
     return best;
   };
 
-  const irrig = pick((h) => -(h.temperature ?? 50) - (h.windSpeed ?? 0) * 0.2 - (h.rainProbability ?? 0) * 0.1);
+  const irrig = pick(
+    (h) => -(h.temperature ?? 50) - (h.windSpeed ?? 0) * 0.2 - (h.rainProbability ?? 0) * 0.1,
+  );
   const spray = pick((h) => {
     const w = h.windSpeed ?? 0;
     const windScore = w >= 3 && w <= 12 ? 20 : -Math.abs(w - 7);
@@ -278,10 +343,26 @@ function buildBestTimes(hourly: HourlyPoint[]): BestTimeActivity[] {
 
   const line = (h: HourlyPoint | undefined) => (h ? `${h.label}` : "--");
   return [
-    { activity: "Irrigation", window: line(irrig), reason: `Coolest low-loss window (${irrig?.temperature ?? "--"}°C)` },
-    { activity: "Spraying", window: line(spray), reason: `Wind ${spray?.windSpeed ?? "--"} km/h, rain ${spray?.rainProbability ?? "--"}%` },
-    { activity: "Harvesting", window: line(harvest), reason: `Driest air (humidity ${harvest?.humidity ?? "--"}%)` },
-    { activity: "Field work", window: line(field), reason: `Mild and dry (${field?.temperature ?? "--"}°C, rain ${field?.rainProbability ?? "--"}%)` },
+    {
+      activity: "Irrigation",
+      window: line(irrig),
+      reason: `Coolest low-loss window (${irrig?.temperature ?? "--"}°C)`,
+    },
+    {
+      activity: "Spraying",
+      window: line(spray),
+      reason: `Wind ${spray?.windSpeed ?? "--"} km/h, rain ${spray?.rainProbability ?? "--"}%`,
+    },
+    {
+      activity: "Harvesting",
+      window: line(harvest),
+      reason: `Driest air (humidity ${harvest?.humidity ?? "--"}%)`,
+    },
+    {
+      activity: "Field work",
+      window: line(field),
+      reason: `Mild and dry (${field?.temperature ?? "--"}°C, rain ${field?.rainProbability ?? "--"}%)`,
+    },
   ];
 }
 

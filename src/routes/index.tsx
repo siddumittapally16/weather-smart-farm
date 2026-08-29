@@ -72,9 +72,7 @@ function Dashboard() {
         setWeather(data);
         setError(null);
       } catch {
-        setWeather((prev) =>
-          prev ? prev : null,
-        );
+        setWeather((prev) => (prev ? prev : null));
         setError(
           "Unable to retrieve live weather data. Please check your connection and try again.",
         );
@@ -114,7 +112,9 @@ function Dashboard() {
           <div className="flex-1">
             <h1 className="text-base font-semibold tracking-tight">FarmGuard AI</h1>
             <p className="text-xs text-muted-foreground">
-              {updating ? "Updating weather…" : `Weather updated ${relativeTime(weather?.fetchedAt ?? null)}`}
+              {updating
+                ? "Updating weather…"
+                : `Weather updated ${relativeTime(weather?.fetchedAt ?? null)}`}
             </p>
           </div>
           <Button
@@ -138,7 +138,12 @@ function Dashboard() {
             <CardContent className="flex items-center gap-3 p-4 text-sm">
               <TriangleAlert className="size-4 text-warning" />
               <span>Weather update unavailable. Showing the last successful update.</span>
-              <Button size="sm" variant="outline" className="ml-auto rounded-full" onClick={() => void refresh(location)}>
+              <Button
+                size="sm"
+                variant="outline"
+                className="ml-auto rounded-full"
+                onClick={() => void refresh(location)}
+              >
                 Retry
               </Button>
             </CardContent>

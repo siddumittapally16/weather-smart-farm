@@ -91,7 +91,24 @@ export function fmt(value: number | null | undefined, unit = "", digits = 0): st
 
 export function windLabel(deg: number | null | undefined): string {
   if (deg === null || deg === undefined || Number.isNaN(deg)) return "--";
-  const dirs = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+  const dirs = [
+    "N",
+    "NNE",
+    "NE",
+    "ENE",
+    "E",
+    "ESE",
+    "SE",
+    "SSE",
+    "S",
+    "SSW",
+    "SW",
+    "WSW",
+    "W",
+    "WNW",
+    "NW",
+    "NNW",
+  ];
   return dirs[Math.round(deg / 22.5) % 16]!;
 }
 
@@ -106,11 +123,46 @@ export const DEFAULT_LOCATION: FarmLocation = {
 
 export const PRESET_LOCATIONS: FarmLocation[] = [
   DEFAULT_LOCATION,
-  { name: "Ludhiana", region: "Punjab", country: "India", latitude: 30.901, longitude: 75.8573, cropFocus: "Wheat, rice" },
-  { name: "Warangal", region: "Telangana", country: "India", latitude: 17.9689, longitude: 79.5941, cropFocus: "Cotton, paddy" },
-  { name: "Guntur", region: "Andhra Pradesh", country: "India", latitude: 16.3067, longitude: 80.4365, cropFocus: "Chilli, paddy" },
-  { name: "Nashik", region: "Maharashtra", country: "India", latitude: 19.9975, longitude: 73.7898, cropFocus: "Grapes, onion" },
-  { name: "Belagavi", region: "Karnataka", country: "India", latitude: 15.8497, longitude: 74.4977, cropFocus: "Sugarcane, maize" },
+  {
+    name: "Ludhiana",
+    region: "Punjab",
+    country: "India",
+    latitude: 30.901,
+    longitude: 75.8573,
+    cropFocus: "Wheat, rice",
+  },
+  {
+    name: "Warangal",
+    region: "Telangana",
+    country: "India",
+    latitude: 17.9689,
+    longitude: 79.5941,
+    cropFocus: "Cotton, paddy",
+  },
+  {
+    name: "Guntur",
+    region: "Andhra Pradesh",
+    country: "India",
+    latitude: 16.3067,
+    longitude: 80.4365,
+    cropFocus: "Chilli, paddy",
+  },
+  {
+    name: "Nashik",
+    region: "Maharashtra",
+    country: "India",
+    latitude: 19.9975,
+    longitude: 73.7898,
+    cropFocus: "Grapes, onion",
+  },
+  {
+    name: "Belagavi",
+    region: "Karnataka",
+    country: "India",
+    latitude: 15.8497,
+    longitude: 74.4977,
+    cropFocus: "Sugarcane, maize",
+  },
 ];
 
 export const WEATHER_REFRESH_INTERVAL_MS = 10 * 60 * 1000;

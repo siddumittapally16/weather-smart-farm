@@ -56,5 +56,10 @@ export const askFarmGuardAI = createServerFn({ method: "POST" })
         .join("\n")
         .trim();
 
-    return { reply: reply && reply.length > 0 ? reply : "I couldn't form an answer just now. Please rephrase your question." };
+    return {
+      reply:
+        reply && reply.length > 0
+          ? reply
+          : "I couldn't form an answer just now. Please rephrase your question.",
+    };
   });

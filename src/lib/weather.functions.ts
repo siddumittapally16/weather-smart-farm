@@ -37,7 +37,13 @@ export const searchLocations = createServerFn({ method: "POST" })
     const res = await fetch(url);
     if (!res.ok) return [];
     const json = (await res.json()) as {
-      results?: { name: string; country?: string; admin1?: string; latitude: number; longitude: number }[];
+      results?: {
+        name: string;
+        country?: string;
+        admin1?: string;
+        latitude: number;
+        longitude: number;
+      }[];
     };
     return (json.results ?? []).map((r) => ({
       name: r.name,

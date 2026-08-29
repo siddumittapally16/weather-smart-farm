@@ -32,13 +32,15 @@ function welcomeMessage(): Message {
 function RichText({ text }: { text: string }) {
   return (
     <>
-      {text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
-        part.startsWith("**") && part.endsWith("**") && part.length > 4 ? (
-          <strong key={i}>{part.slice(2, -2)}</strong>
-        ) : (
-          <span key={i}>{part}</span>
-        ),
-      )}
+      {text
+        .split(/(\*\*[^*]+\*\*)/g)
+        .map((part, i) =>
+          part.startsWith("**") && part.endsWith("**") && part.length > 4 ? (
+            <strong key={i}>{part.slice(2, -2)}</strong>
+          ) : (
+            <span key={i}>{part}</span>
+          ),
+        )}
     </>
   );
 }
@@ -62,7 +64,12 @@ export function AIChatBox({ weather }: { weather: WeatherData | null }) {
   const send = async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || loading) return;
-    const userMsg: Message = { id: crypto.randomUUID(), role: "user", content: trimmed, at: Date.now() };
+    const userMsg: Message = {
+      id: crypto.randomUUID(),
+      role: "user",
+      content: trimmed,
+      at: Date.now(),
+    };
     const history: ChatTurn[] = messages
       .filter((m) => m.id !== "welcome")
       .map((m) => ({ role: m.role, content: m.content }));
@@ -141,7 +148,12 @@ export function AIChatBox({ weather }: { weather: WeatherData | null }) {
 
           <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto px-4 py-4">
             {messages.map((m) => (
-              <div key={m.id} className={m.role === "user" ? "flex flex-col items-end" : "flex flex-col items-start"}>
+              <div
+                key={m.id}
+                className={
+                  m.role === "user" ? "flex flex-col items-end" : "flex flex-col items-start"
+                }
+              >
                 <div
                   className={
                     m.role === "user"
@@ -202,7 +214,12 @@ export function AIChatBox({ weather }: { weather: WeatherData | null }) {
               className="max-h-28 min-h-10 resize-none rounded-2xl bg-muted text-sm"
               aria-label="Message FarmGuard AI"
             />
-            <Button type="submit" size="icon" className="size-10 shrink-0 rounded-full" disabled={loading || !input.trim()}>
+            <Button
+              type="submit"
+              size="icon"
+              className="size-10 shrink-0 rounded-full"
+              disabled={loading || !input.trim()}
+            >
               <Send className="size-4" />
             </Button>
           </form>

@@ -29,18 +29,24 @@ export function CurrentWeatherCard({ weather }: { weather: WeatherData }) {
               {l.country ? ` · ${l.country}` : ""}
             </p>
             <div className="mt-2 flex items-end gap-3">
-              <span className="text-6xl font-semibold tracking-tight">{fmt(c.temperature, "°")}</span>
+              <span className="text-6xl font-semibold tracking-tight">
+                {fmt(c.temperature, "°")}
+              </span>
               <span className="pb-2 text-lg opacity-90">C</span>
             </div>
             <p className="mt-1 text-base font-medium">{c.condition}</p>
             <p className="text-sm opacity-85">
-              Feels like {fmt(c.feelsLike, "°C")} · High {fmt(c.high, "°C")} · Low {fmt(c.low, "°C")}
+              Feels like {fmt(c.feelsLike, "°C")} · High {fmt(c.high, "°C")} · Low{" "}
+              {fmt(c.low, "°C")}
             </p>
           </div>
           <div className="grid grid-cols-2 gap-x-8 gap-y-3 text-sm">
             <Stat label="Humidity" value={fmt(c.humidity, "%")} />
             <Stat label="Dew point" value={fmt(c.dewPoint, "°C")} />
-            <Stat label="Wind" value={`${fmt(c.windSpeed, " km/h")} ${windLabel(c.windDirection)}`} />
+            <Stat
+              label="Wind"
+              value={`${fmt(c.windSpeed, " km/h")} ${windLabel(c.windDirection)}`}
+            />
             <Stat label="Gusts" value={fmt(c.windGust, " km/h")} />
             <Stat label="Rain chance" value={fmt(c.rainProbability, "%")} />
             <Stat label="Rain" value={fmt(c.precipitation, " mm", 1)} />
@@ -191,7 +197,8 @@ export function SafetyAlerts({ weather }: { weather: WeatherData }) {
       </CardHeader>
       <CardContent className="space-y-3">
         {weather.safetyAlerts.map((a) => {
-          const Icon = a.severity === "info" ? Info : a.severity === "warning" ? TriangleAlert : ShieldAlert;
+          const Icon =
+            a.severity === "info" ? Info : a.severity === "warning" ? TriangleAlert : ShieldAlert;
           return (
             <div
               key={a.id}

@@ -71,11 +71,13 @@ function Dashboard() {
         const data = await getWeather({ data: { location: target } });
         setWeather(data);
         setError(null);
+        return true;
       } catch {
         setWeather((prev) => (prev ? prev : null));
         setError(
           "Unable to retrieve live weather data. Please check your connection and try again.",
         );
+        return false;
       } finally {
         setUpdating(false);
       }

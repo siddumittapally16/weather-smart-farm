@@ -15,6 +15,8 @@ import {
   SafetyAlerts,
 } from "@/components/farm/WeatherCards";
 import { fetchWeatherData } from "@/lib/weather.functions";
+import { buildForecastUrl, buildWeatherData } from "@/lib/weather-core";
+
 import {
   DEFAULT_LOCATION,
   WEATHER_REFRESH_INTERVAL_MS,

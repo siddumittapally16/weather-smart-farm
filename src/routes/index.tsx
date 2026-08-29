@@ -71,11 +71,13 @@ function Dashboard() {
         const data = await getWeather({ data: { location: target } });
         setWeather(data);
         setError(null);
+        return true;
       } catch {
         setWeather((prev) => (prev ? prev : null));
         setError(
           "Unable to retrieve live weather data. Please check your connection and try again.",
         );
+        return false;
       } finally {
         setUpdating(false);
       }
@@ -84,8 +86,21 @@ function Dashboard() {
   );
 
   // Load the default agricultural location immediately, then whenever it changes.
+  // If the provider hiccups, retry automatically with a short backoff.
   useEffect(() => {
-    void refresh(location);
+    let cancelled = false;
+    let timer: ReturnType<typeof setTimeout>;
+    const attempt = async (tries: number) => {
+      const ok = await refresh(location);
+      if (!ok && !cancelled && tries < 4) {
+        timer = setTimeout(() => void attempt(tries + 1), 3000 * (tries + 1));
+      }
+    };
+    void attempt(0);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, [location, refresh]);
 
   // Periodic auto-refresh (interval configurable in weather-types.ts).

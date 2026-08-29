@@ -16,12 +16,24 @@ export const fetchWeatherData = createServerFn({ method: "POST" })
     url.searchParams.set("forecast_days", "7");
     url.searchParams.set("wind_speed_unit", "kmh");
 
-    const res = await fetch(url);
-    if (!res.ok) {
-      throw new Error(`Weather provider error (${res.status})`);
+    // Open-Meteo occasionally rate-limits or drops a request; retry briefly
+    // so a single hiccup never blanks the dashboard.
+    let lastError = "unknown error";
+    for (let attempt = 0; attempt < 3; attempt++) {
+      if (attempt > 0) await new Promise((r) => setTimeout(r, 400 * attempt));
+      try {
+        const res = await fetch(url, { headers: { Accept: "application/json" } });
+        if (!res.ok) {
+          lastError = `provider status ${res.status}`;
+          continue;
+        }
+        const raw = (await res.json()) as Record<string, never>;
+        return buildWeatherData(location, raw);
+      } catch (err) {
+        lastError = err instanceof Error ? err.message : String(err);
+      }
     }
-    const raw = (await res.json()) as Record<string, never>;
-    return buildWeatherData(location, raw);
+    throw new Error(`Weather provider unavailable (${lastError})`);
   });
 
 export const searchLocations = createServerFn({ method: "POST" })

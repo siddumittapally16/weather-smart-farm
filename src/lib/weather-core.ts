@@ -376,3 +376,17 @@ export const FORECAST_PARAMS = {
   daily:
     "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,uv_index_max,wind_speed_10m_max,et0_fao_evapotranspiration",
 };
+
+export function buildForecastUrl(location: FarmLocation): string {
+  const url = new URL(FORECAST_URL);
+  url.searchParams.set("latitude", String(location.latitude));
+  url.searchParams.set("longitude", String(location.longitude));
+  url.searchParams.set("current", FORECAST_PARAMS.current);
+  url.searchParams.set("hourly", FORECAST_PARAMS.hourly);
+  url.searchParams.set("daily", FORECAST_PARAMS.daily);
+  url.searchParams.set("timezone", "auto");
+  url.searchParams.set("forecast_days", "7");
+  url.searchParams.set("wind_speed_unit", "kmh");
+  return url.toString();
+}
+

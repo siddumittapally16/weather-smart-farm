@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import type { WeatherData } from "./weather-types";
 import { buildAiContext, FARM_AI_SYSTEM_PROMPT } from "./farm-ai-core";
+import { buildKnowledgeContext } from "./farm-knowledge";
 
 export type ChatTurn = { role: "user" | "assistant"; content: string };
 
@@ -17,7 +18,7 @@ export const askFarmGuardAI = createServerFn({ method: "POST" })
     const key = process.env["LOVABLE_API_KEY"];
     if (!key) throw new Error("FarmGuard AI is temporarily unavailable.");
 
-    const context = buildAiContext(data.weather, data.cropFocus);
+    const context = `${buildAiContext(data.weather, data.cropFocus)}\n\n${buildKnowledgeContext(data.weather)}`;
     const history = (data.history ?? []).slice(-8);
 
     const res = await fetch("https://ai.gateway.lovable.dev/v1/responses", {

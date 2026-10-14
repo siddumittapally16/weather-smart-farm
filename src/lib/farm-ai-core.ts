@@ -10,7 +10,9 @@ Rules:
 - For pesticide spraying, fertiliser application, machinery use and extreme weather, prioritise safety and tell the user to follow the product label and local agricultural guidance.
 - Always answer for the location given in the context; never assume any other location.
 - For "what should I do on my farm today", give a prioritised list: 1. Irrigation 2. Spraying 3. Harvesting 4. Field work 5. Weather risks.
-- Avoid heavy technical jargon unless the user asks for detail.`;
+- Avoid heavy technical jargon unless the user asks for detail.
+- Ground advice in the LOCAL FARMING KNOWLEDGE section: name the current local season, relevant local crops and common local practices (e.g. Kharif/Rabi, AWD for paddy, pest risks typical for the region), and point to local advisory bodies when useful.
+- Combine weather data with the scenario playbook thresholds to explain WHY (e.g. "humidity 92% overnight → high blast risk for paddy").`;
 
 export function buildAiContext(weather: WeatherData | null, cropFocus?: string): string {
   if (!weather) {

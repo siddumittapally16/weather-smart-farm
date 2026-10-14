@@ -55,7 +55,11 @@ type OpenMeteoResponse = {
 };
 
 function hourLabel(iso: string): string {
-  return iso.slice(11, 16);
+  const h24 = Number(iso.slice(11, 13));
+  const min = iso.slice(14, 16);
+  if (!Number.isFinite(h24)) return iso.slice(11, 16);
+  const h12 = h24 % 12 === 0 ? 12 : h24 % 12;
+  return `${h12}:${min} ${h24 < 12 ? "AM" : "PM"}`;
 }
 
 function dayLabel(iso: string): string {

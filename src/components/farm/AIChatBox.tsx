@@ -22,7 +22,7 @@ const SUGGESTIONS = [
 ];
 
 const time = (at: number) =>
-  new Date(at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  new Date(at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", hour12: true });
 
 function welcomeMessage(): Message {
   return { id: "welcome", role: "assistant", content: WELCOME, at: Date.now() };

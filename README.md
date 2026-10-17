@@ -1,29 +1,59 @@
-# Welcome to your Lovable project
+# 🌾 FarmGuard AI — Smart Agricultural Weather & Advisory Dashboard
 
-This project was built with [Lovable](https://lovable.dev).
+An intelligent agricultural weather monitoring and AI-powered advisory system that helps farmers make timely, data-driven decisions on spraying, irrigation, harvesting and pest control.
 
-## Build with Lovable
+🌐 **Live Demo:** [weather-smart-farm.lovable.app](https://weather-smart-farm.lovable.app)
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+---
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+## 📌 About the Project
 
-## Development
+**FarmGuard AI** combines live weather data with local farming knowledge. Beyond a standard forecast, it analyzes field conditions — wind speed limits for spraying, overnight humidity for fungal blast risk, and rainfall outlook for irrigation — and gives practical advice matched to local seasons and crops.
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## ✨ Key Features
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+- 🌦️ **Live Weather Monitoring** — temperature, wind, humidity and rain probability with a 12-hour forecast.
+- 🤖 **FarmGuard AI Assistant** — floating chat assistant with regional crop knowledge (paddy, cotton, chilli, red gram, maize, turmeric in Telangana & Andhra Pradesh, and more).
+- 🚜 **Agricultural Safety Logic** — spraying windows, irrigation timing and disease-risk alerts.
+- 📍 **Location Awareness** — search any city; advice always uses the selected location.
+- 🔄 **Auto-Refresh** — weather updates every 10 minutes, plus manual refresh and automatic retries.
+- 🕒 **12-Hour Clock** — AM/PM times across the forecast and chat.
+- 📱 **Mobile-Friendly Design** — works in the field or the office.
+
+## 🛠️ Technologies Used
+
+- **Frontend:** React 19, Tailwind CSS v4, Lucide Icons
+- **Full-Stack Framework:** TanStack Start v1 & TanStack Router (TypeScript)
+- **Weather Data:** Open-Meteo API (forecast + geocoding, no key required)
+- **AI Engine:** Lovable AI Gateway (server-side; API key never exposed to the browser)
+- **Platform:** Lovable
+
+## ⚙️ Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) v18+ and npm (or bun)
+- Git
+
+### Installation
+
+```bash
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd weather-smart-farm
+npm install
 npm run dev
 ```
 
-## Built with
+The app runs at `http://localhost:8080`.
 
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+## 🌐 Live Deployment
+
+- **Production:** [https://weather-smart-farm.lovable.app](https://weather-smart-farm.lovable.app)
+
+## 👨‍💻 Developer
+
+**Siddharthareddy Mittapally**
+
+## 📄 License
+
+This project is created for educational and agricultural development purposes.

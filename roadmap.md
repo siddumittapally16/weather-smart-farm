@@ -1,0 +1,3 @@
+- [ ] Add private saved field records and crop tracker with account access.
+- [ ] Include saved crop records in signed-in FarmGuard AI answers.
+- [ ] Verify field create/edit/delete and crop-aware chat.

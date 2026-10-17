@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LocationSearch } from "@/components/farm/LocationSearch";
 import { AIChatBox } from "@/components/farm/AIChatBox";
+import { FarmNav } from "@/components/farm/FarmNav";
 import {
   BestTimeActivities,
   CurrentWeatherCard,
@@ -134,7 +135,7 @@ function Dashboard() {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-4 py-3 sm:px-6">
           <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
             <Leaf className="size-4.5" />
           </span>
@@ -146,6 +147,7 @@ function Dashboard() {
                 : `Weather updated ${relativeTime(weather?.fetchedAt ?? null)}`}
             </p>
           </div>
+          <FarmNav />
           <Button
             variant="outline"
             size="sm"

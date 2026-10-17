@@ -14,7 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      crop_fields: {
+        Row: {
+          area_acres: number | null
+          country: string | null
+          created_at: string
+          crop: string
+          expected_harvest_date: string | null
+          field_name: string
+          harvest_progress: number
+          id: string
+          latitude: number
+          location_name: string
+          longitude: number
+          notes: string
+          region: string | null
+          sowing_date: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          area_acres?: number | null
+          country?: string | null
+          created_at?: string
+          crop: string
+          expected_harvest_date?: string | null
+          field_name: string
+          harvest_progress?: number
+          id?: string
+          latitude: number
+          location_name: string
+          longitude: number
+          notes?: string
+          region?: string | null
+          sowing_date: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          area_acres?: number | null
+          country?: string | null
+          created_at?: string
+          crop?: string
+          expected_harvest_date?: string | null
+          field_name?: string
+          harvest_progress?: number
+          id?: string
+          latitude?: number
+          location_name?: string
+          longitude?: number
+          notes?: string
+          region?: string | null
+          sowing_date?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

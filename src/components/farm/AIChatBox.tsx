@@ -3,7 +3,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { Bot, Eraser, Send, X, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { askFarmGuardAI, type ChatTurn } from "@/lib/farm-ai.functions";
+import { askFarmGuardAI, askFarmGuardWithCrops, type ChatTurn } from "@/lib/farm-ai.functions";
+import { useAccount } from "./AccountProvider";
 import type { WeatherData } from "@/lib/weather-types";
 
 type Message = { id: string; role: "user" | "assistant"; content: string; at: number };
@@ -52,6 +53,11 @@ export function AIChatBox({ weather }: { weather: WeatherData | null }) {
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const ask = useServerFn(askFarmGuardAI);
+  const askWithCrops = useServerFn(askFarmGuardWithCrops);
+  const { user } = useAccount();
+  const identity = user?.id;
+
+  useEffect(() => { setMessages([welcomeMessage()]); setInput(""); }, [identity, weather?.location.latitude, weather?.location.longitude]);
 
   useEffect(() => {
     if (messages.length === 0) setMessages([welcomeMessage()]);
@@ -77,7 +83,7 @@ export function AIChatBox({ weather }: { weather: WeatherData | null }) {
     setInput("");
     setLoading(true);
     try {
-      const res = await ask({
+      const res = await (user ? askWithCrops : ask)({
         data: {
           message: trimmed,
           weather,
@@ -143,6 +149,7 @@ export function AIChatBox({ weather }: { weather: WeatherData | null }) {
             <p className="border-b border-border bg-muted px-4 py-1.5 text-[11px] text-muted-foreground">
               Using live weather for {weather.location.name}
               {weather.location.region ? `, ${weather.location.region}` : ""}
+              {user ? " · Saved crop records included" : ""}
             </p>
           ) : null}
 

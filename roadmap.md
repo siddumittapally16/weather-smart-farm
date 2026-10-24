@@ -4,6 +4,6 @@
 ## Rainfall early-warning emails (in progress)
 - [x] Detection engine: 15-minute forecast slots, lead-time classification, duplicate/update rules, crop risk assessment + unit tests.
 - [x] Database: rainfall_alerts, alert preferences, monitor lock tables with RLS.
-- [ ] Email domain setup (blocked: user must complete one-time sender-domain setup).
+- [ ] Email domain setup — blocked: waiting for you to finish the one-time sender-domain setup (button below).
 - [ ] Scaffold email templates and rainfall alert email.
 - [ ] Monitor route + 5-minute schedule; verify end-to-end.

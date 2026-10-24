@@ -71,6 +71,96 @@ export type Database = {
         }
         Relationships: []
       }
+      rainfall_alert_prefs: {
+        Row: {
+          email_enabled: boolean
+          min_lead_minutes: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          email_enabled?: boolean
+          min_lead_minutes?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          email_enabled?: boolean
+          min_lead_minutes?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      rainfall_alerts: {
+        Row: {
+          alert_version: number
+          created_at: string
+          event_start: string
+          expected_duration_minutes: number | null
+          expected_total_mm: number | null
+          field_id: string
+          id: string
+          last_send_status: string | null
+          last_sent_at: string | null
+          lead_minutes: number
+          predicted_intensity_mm: number
+          rain_probability: number | null
+          sent_count: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          alert_version?: number
+          created_at?: string
+          event_start: string
+          expected_duration_minutes?: number | null
+          expected_total_mm?: number | null
+          field_id: string
+          id?: string
+          last_send_status?: string | null
+          last_sent_at?: string | null
+          lead_minutes: number
+          predicted_intensity_mm: number
+          rain_probability?: number | null
+          sent_count?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          alert_version?: number
+          created_at?: string
+          event_start?: string
+          expected_duration_minutes?: number | null
+          expected_total_mm?: number | null
+          field_id?: string
+          id?: string
+          last_send_status?: string | null
+          last_sent_at?: string | null
+          lead_minutes?: number
+          predicted_intensity_mm?: number
+          rain_probability?: number | null
+          sent_count?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      rainfall_monitor_lock: {
+        Row: {
+          id: number
+          locked_until: string
+        }
+        Insert: {
+          id?: number
+          locked_until?: string
+        }
+        Update: {
+          id?: number
+          locked_until?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

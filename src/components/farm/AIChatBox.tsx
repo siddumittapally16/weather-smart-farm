@@ -56,8 +56,9 @@ export function AIChatBox({ weather }: { weather: WeatherData | null }) {
   const askWithCrops = useServerFn(askFarmGuardWithCrops);
   const { user } = useAccount();
   const identity = user?.id;
+  const contextVersion = useRef(0);
 
-  useEffect(() => { setMessages([welcomeMessage()]); setInput(""); }, [identity, weather?.location.latitude, weather?.location.longitude]);
+  useEffect(() => { contextVersion.current += 1; setMessages([welcomeMessage()]); setInput(""); setLoading(false); }, [identity, weather?.location.latitude, weather?.location.longitude]);
 
   useEffect(() => {
     if (messages.length === 0) setMessages([welcomeMessage()]);
@@ -70,6 +71,7 @@ export function AIChatBox({ weather }: { weather: WeatherData | null }) {
   const send = async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || loading) return;
+    const requestVersion = contextVersion.current;
     const userMsg: Message = {
       id: crypto.randomUUID(),
       role: "user",
@@ -91,11 +93,13 @@ export function AIChatBox({ weather }: { weather: WeatherData | null }) {
           ...(weather?.location.cropFocus ? { cropFocus: weather.location.cropFocus } : {}),
         },
       });
+      if (requestVersion !== contextVersion.current) return;
       setMessages((prev) => [
         ...prev,
         { id: crypto.randomUUID(), role: "assistant", content: res.reply, at: Date.now() },
       ]);
     } catch (err) {
+      if (requestVersion !== contextVersion.current) return;
       setMessages((prev) => [
         ...prev,
         {
@@ -109,7 +113,7 @@ export function AIChatBox({ weather }: { weather: WeatherData | null }) {
         },
       ]);
     } finally {
-      setLoading(false);
+      if (requestVersion === contextVersion.current) setLoading(false);
     }
   };
 

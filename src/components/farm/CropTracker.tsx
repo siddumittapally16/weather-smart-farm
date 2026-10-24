@@ -32,7 +32,7 @@ export function CropTracker() {
   const [error, setError] = useState("");
   function startEdit(field: CropField | null) {
     setEditing(field); setProgress(field?.harvest_progress ?? 0); setError("");
-    setLocation(field ? { name: field.location_name, region: field.region ?? undefined, country: field.country ?? "", latitude: field.latitude, longitude: field.longitude } : DEFAULT_LOCATION);
+    setLocation(field ? { name: field.location_name, ...(field.region ? { region: field.region } : {}), country: field.country ?? "", latitude: field.latitude, longitude: field.longitude } : DEFAULT_LOCATION);
     setOpen(true);
   }
   return <div className="min-h-screen bg-background">
@@ -61,7 +61,7 @@ export function CropTracker() {
         const parsed = cropFieldSchema.safeParse(field);
         if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? "Please check your field details."); return; }
         setBusy(true);
-        try { await save({ data: { id: editing?.id, field: parsed.data } }); await client.invalidateQueries({ queryKey: ["crop-fields"] }); setOpen(false); }
+        try { await save({ data: { ...(editing ? { id: editing.id } : {}), field: parsed.data } }); await client.invalidateQueries({ queryKey: ["crop-fields"] }); setOpen(false); }
         catch (err) { setError(err instanceof Error ? err.message : "Could not save your field."); } finally { setBusy(false); }
       }}>
         <div className="grid gap-4 sm:grid-cols-2"><div className="space-y-2"><Label htmlFor="field-name">Field name</Label><Input id="field-name" name="field_name" placeholder="North field" defaultValue={editing?.field_name} maxLength={100} required /></div><div className="space-y-2"><Label htmlFor="crop">Crop</Label><Input id="crop" name="crop" placeholder="Paddy, cotton, maize…" defaultValue={editing?.crop} maxLength={100} required /></div></div>

@@ -1,3 +1,3 @@
-- [ ] Add private saved field records and crop tracker with account access.
-- [ ] Include saved crop records in signed-in FarmGuard AI answers.
-- [ ] Verify field create/edit/delete and crop-aware chat.
+- [x] Add private saved field records and crop tracker with account access.
+- [x] Include saved crop records in signed-in FarmGuard AI answers.
+- [ ] Verify field create/edit/delete and crop-aware chat. Blocked: no signed-up account exists; user must sign in first. Crop context tests, public navigation, and sign-in screens verified.

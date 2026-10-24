@@ -10,7 +10,7 @@ const validateChat = (input: {
       weather: WeatherData | null;
       history?: ChatTurn[];
       cropFocus?: string;
-    }) => ({ ...input, message: z.string().trim().min(1).max(4000).parse(input.message), history: z.array(z.object({ role: z.enum(["user", "assistant"]), content: z.string().max(20000) })).max(100).optional().parse(input.history) });
+    }) => ({ ...input, message: z.string().trim().min(1).max(4000).parse(input.message), history: z.array(z.object({ role: z.enum(["user", "assistant"]), content: z.string().max(20000) })).max(100).parse(input.history ?? []) });
 
 export const askFarmGuardAI = createServerFn({ method: "POST" })
   .inputValidator(validateChat)

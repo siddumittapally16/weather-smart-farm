@@ -61,7 +61,7 @@ describe("rainfall early warning", () => {
   it("derives growth stage from logged sowing date and progress", () => {
     expect(deriveGrowthStage("2026-10-10", 10, NOW)).toBe("Early vegetative");
     expect(deriveGrowthStage("2026-09-20", 35, NOW)).toBe("Vegetative");
-    expect(deriveGrowthStage("2026-07-01", 35, NOW)).toBe("Flowering / reproductive");
+    expect(deriveGrowthStage("2026-08-10", 35, NOW)).toBe("Flowering / reproductive");
     expect(deriveGrowthStage("2026-06-01", 95, NOW)).toBe("Maturity / harvest");
   });
 

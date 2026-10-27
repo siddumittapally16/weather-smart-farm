@@ -17,3 +17,4 @@
 - Load saved fields on the server for each signed-in AI question, and apply weather only to fields matching the selected coordinates; never trust browser-supplied crop records.
 - Share AI generation in a server-only helper, preserving the existing model and keeping secrets out of the client bundle.
 - Use one root account listener to invalidate identity-dependent queries and clear private cache on sign-out.
+- Rainfall monitoring runs server-side on a managed schedule every 5 minutes calling /api/public/jobs/rainfall-alerts with the generated cron auth; detection, dedup, alerts and in-app notifications live in Cloud tables (rainfall_alerts, rainfall_notifications, rainfall_monitor_lock, rainfall_alert_prefs). Email sending will be added to the same monitor only after the sender-domain setup and transactional-template scaffold exist.

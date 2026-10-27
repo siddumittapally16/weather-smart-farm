@@ -45,7 +45,10 @@ export const setRainfallAlertPrefs = createServerFn({ method: "POST" })
   .inputValidator((input: { notifyInApp?: boolean }) =>
     z.object({ notifyInApp: z.boolean().optional() }).parse(input))
   .handler(async ({ data, context }) => {
-    const values: Record<string, unknown> = { user_id: context.userId, updated_at: new Date().toISOString() };
+    const values: { user_id: string; updated_at: string; notify_in_app?: boolean } = {
+      user_id: context.userId,
+      updated_at: new Date().toISOString(),
+    };
     if (data.notifyInApp !== undefined) values.notify_in_app = data.notifyInApp;
     const { error } = await context.supabase.from("rainfall_alert_prefs").upsert(values);
     if (error) throw new Error("Alert settings could not be saved.");
@@ -60,5 +63,5 @@ export const getRainfallAlertPrefs = createServerFn({ method: "GET" })
       .select("notify_in_app")
       .eq("user_id", context.userId)
       .maybeSingle();
-    return { notifyInApp: (data as { notify_in_app?: boolean } | null)?.notify_in_app ?? true };
+    return { notifyInApp: data?.["notify_in_app"] ?? true };
   });

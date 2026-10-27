@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Bell, CloudRain } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getRainfallAlertPrefs, listRainfallNotifications, markRainfallNotificationsSeen, type RainNotification } from "@/lib/rainfall.functions";
+import { getRainfallAlertPrefs, listRainfallNotifications, markRainfallNotificationsSeen, setRainfallAlertPrefs, type RainNotification } from "@/lib/rainfall.functions";
 import { useAccount } from "./AccountProvider";
 
 function eventTime(iso: string): string {

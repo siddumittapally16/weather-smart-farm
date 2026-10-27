@@ -35,7 +35,11 @@ type AlertRow = {
 
 function notificationMessage(field: { field_name: string; crop: string }, intensityMm: number, leadMinutes: number, stage: string): string {
   const assessment = assessCropRisk(field.crop, stage as never, intensityMm, null, leadMinutes);
-  return `${intensityLabel(intensityMm)} — starts in about ${leadMinutes} minutes. ${assessment.damageRisk} First step: ${assessment.precautions[0]}`;
+  const timing =
+    leadMinutes <= 0
+      ? `${intensityLabel(intensityMm)} — starting around now.`
+      : `${intensityLabel(intensityMm)} — starts in about ${leadMinutes} minutes.`;
+  return `${timing} ${assessment.damageRisk} First step: ${assessment.precautions[0]}`;
 }
 
 async function fetchForecast(lat: number, lon: number): Promise<Record<string, never> | null> {

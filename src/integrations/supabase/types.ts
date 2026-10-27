@@ -75,18 +75,21 @@ export type Database = {
         Row: {
           email_enabled: boolean
           min_lead_minutes: number
+          notify_in_app: boolean
           updated_at: string
           user_id: string
         }
         Insert: {
           email_enabled?: boolean
           min_lead_minutes?: number
+          notify_in_app?: boolean
           updated_at?: string
           user_id: string
         }
         Update: {
           email_enabled?: boolean
           min_lead_minutes?: number
+          notify_in_app?: boolean
           updated_at?: string
           user_id?: string
         }
@@ -158,6 +161,51 @@ export type Database = {
         Update: {
           id?: number
           locked_until?: string
+        }
+        Relationships: []
+      }
+      rainfall_notifications: {
+        Row: {
+          alert_id: string
+          created_at: string
+          crop: string
+          event_start: string
+          field_name: string
+          id: string
+          intensity_mm: number
+          lead_minutes: number
+          location_name: string
+          message: string
+          seen_at: string | null
+          user_id: string
+        }
+        Insert: {
+          alert_id: string
+          created_at?: string
+          crop: string
+          event_start: string
+          field_name: string
+          id?: string
+          intensity_mm: number
+          lead_minutes: number
+          location_name: string
+          message: string
+          seen_at?: string | null
+          user_id: string
+        }
+        Update: {
+          alert_id?: string
+          created_at?: string
+          crop?: string
+          event_start?: string
+          field_name?: string
+          id?: string
+          intensity_mm?: number
+          lead_minutes?: number
+          location_name?: string
+          message?: string
+          seen_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }

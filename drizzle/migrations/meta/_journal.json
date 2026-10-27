@@ -15,6 +15,13 @@
       "when": 1792859858946,
       "tag": "0001_rainfall_alert_tables",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793099757776,
+      "tag": "0002_rainfall_notifications_table",
+      "breakpoints": true
     }
   ]
 }

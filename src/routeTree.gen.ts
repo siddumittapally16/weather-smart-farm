@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedCropTrackerRouteImport } from './routes/_authenticated/crop-tracker'
+import { Route as ApiPublicJobsRainfallAlertsRouteImport } from './routes/api/public/jobs/rainfall-alerts'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,18 +41,26 @@ const AuthenticatedCropTrackerRoute =
     path: '/crop-tracker',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicJobsRainfallAlertsRoute =
+  ApiPublicJobsRainfallAlertsRouteImport.update({
+    id: '/api/public/jobs/rainfall-alerts',
+    path: '/api/public/jobs/rainfall-alerts',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/crop-tracker': typeof AuthenticatedCropTrackerRoute
+  '/api/public/jobs/rainfall-alerts': typeof ApiPublicJobsRainfallAlertsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/crop-tracker': typeof AuthenticatedCropTrackerRoute
+  '/api/public/jobs/rainfall-alerts': typeof ApiPublicJobsRainfallAlertsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -60,12 +69,23 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/crop-tracker': typeof AuthenticatedCropTrackerRoute
+  '/api/public/jobs/rainfall-alerts': typeof ApiPublicJobsRainfallAlertsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/reset-password' | '/crop-tracker'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/crop-tracker'
+    | '/api/public/jobs/rainfall-alerts'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/reset-password' | '/crop-tracker'
+  to:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/crop-tracker'
+    | '/api/public/jobs/rainfall-alerts'
   id:
     | '__root__'
     | '/'
@@ -73,6 +93,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/_authenticated/crop-tracker'
+    | '/api/public/jobs/rainfall-alerts'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,6 +101,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ApiPublicJobsRainfallAlertsRoute: typeof ApiPublicJobsRainfallAlertsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -119,6 +141,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCropTrackerRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/jobs/rainfall-alerts': {
+      id: '/api/public/jobs/rainfall-alerts'
+      path: '/api/public/jobs/rainfall-alerts'
+      fullPath: '/api/public/jobs/rainfall-alerts'
+      preLoaderRoute: typeof ApiPublicJobsRainfallAlertsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -138,6 +167,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ApiPublicJobsRainfallAlertsRoute: ApiPublicJobsRainfallAlertsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

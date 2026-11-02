@@ -34,7 +34,9 @@ export function RainAlertsBell() {
   });
 
   const markSeen = useMutation({
-    mutationFn: markRainfallNotificationsSeen,
+    mutationFn: async () => {
+      await markRainfallNotificationsSeen();
+    },
     onSuccess: () => client.invalidateQueries({ queryKey: ["rain-notifications"] }),
   });
 

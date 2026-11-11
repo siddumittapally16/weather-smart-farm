@@ -1,6 +1,6 @@
 - [x] Add private saved field records and crop tracker with account access.
 - [x] Include saved crop records in signed-in FarmGuard AI answers.
-- [ ] Verify field create/edit/delete and crop-aware chat. Blocked: no signed-up account exists; user must sign in first. Crop context tests, public navigation, and sign-in screens verified.
+- [x] Verify field create/edit/delete and crop-aware chat (verified signed in).
 ## Rainfall early-warning emails (in progress)
 - [x] Detection engine: 15-minute forecast slots, lead-time classification, duplicate/update rules, crop risk assessment + unit tests.
 - [x] Database: rainfall_alerts, alert preferences, monitor lock tables with RLS.
